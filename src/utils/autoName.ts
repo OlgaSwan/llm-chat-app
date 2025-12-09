@@ -32,7 +32,6 @@ export async function generateThreadName(firstMessage: string, apiKey: string): 
     const generatedName = data.choices?.[0]?.message?.content?.trim();
 
     if (generatedName) {
-      // Remove quotes if present
       return generatedName.replace(/^["']|["']$/g, '');
     }
 

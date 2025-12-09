@@ -5,16 +5,16 @@ A standalone chat application to interface with LLM using OpenRouter API. Built 
 ## Features
 
 ### Required Features
-- ✅ **Thread Management**: Create, delete, rename, and switch between conversation threads
-- ✅ **Streaming Responses**: Real-time streaming of LLM responses
-- ✅ **Markdown Formatting**: Properly formatted responses with markdown support
-- ✅ **Request Cancellation**: Cancel in-flight requests while streaming
-- ✅ **Auto-scrolling**: Automatic scroll with manual override and scroll-to-bottom button
-- ✅ **Token Usage**: Display token usage for individual messages and entire threads
-- ✅ **Local Persistence**: Threads and messages saved to localStorage
+-  **Thread Management**: Create, delete, rename, and switch between conversation threads
+- **Streaming Responses**: Real-time streaming of LLM responses
+-  **Markdown Formatting**: Properly formatted responses with markdown support
+-  **Request Cancellation**: Cancel in-flight requests while streaming
+-  **Auto-scrolling**: Automatic scroll with manual override and scroll-to-bottom button
+-  **Token Usage**: Display token usage for individual messages and entire threads
+-  **Local Persistence**: Threads and messages saved to localStorage
 
 ### Bonus Features
-- ✅ **Auto-naming Threads**: Automatically generates thread names based on the first user prompt
+-  **Auto-naming Threads**: Automatically generates thread names based on the first user prompt
 
 ## Tech Stack
 
@@ -24,6 +24,7 @@ A standalone chat application to interface with LLM using OpenRouter API. Built 
 - **Tailwind CSS**: Utility-first CSS framework
 - **Zustand**: State management with persistence
 - **React Markdown**: Markdown rendering
+- **Lucide React** - Icon library
 - **OpenRouter API**: LLM interface using `openai/gpt-3.5-turbo` model
 
 ## Prerequisites
@@ -69,11 +70,6 @@ npm run build
 ```
 The built files will be in the `dist` directory.
 
-### Preview Production Build
-```bash
-npm run preview
-```
-
 ## Usage
 
 ### Creating a Thread
@@ -102,40 +98,28 @@ npm run preview
 - Token usage is displayed below each assistant message
 - Total token usage for the entire thread is shown in the header
 
-## Project Structure
-
-```
-src/
-├── components/
-│   ├── ChatArea.tsx      # Main chat interface
-│   ├── ChatInput.tsx     # Message input component
-│   ├── Message.tsx       # Individual message component
-│   └── Sidebar.tsx       # Thread list sidebar
-├── store/
-│   └── chatStore.ts      # Zustand store with persistence
-├── utils/
-│   └── autoName.ts       # Thread auto-naming utility
-├── types.ts              # TypeScript type definitions
-├── App.tsx               # Root component
-├── main.tsx              # Entry point
-└── index.css             # Global styles
-```
-
 ## Design Decisions
 
-### State Management
-- **Zustand** was chosen for its simplicity and built-in persistence middleware
-- State is automatically saved to localStorage for data persistence
+### Thread Management
+- Auto-naming based on first user message
+- Inline renaming with Enter/Escape keyboard shortcuts
+- Click-outside-to-save for better UX
 
-### Streaming Implementation
-- Direct fetch API with ReadableStream for maximum control
-- AbortController for request cancellation
-- Real-time UI updates as tokens arrive
+### Streaming
+- Real-time token-by-token response rendering
+- Cancel button appears during streaming
+- Automatic token usage tracking
 
-### UI/UX
-- Clean, minimalist design inspired by modern chat applications
-- Responsive layout with fixed sidebar and flexible chat area
-- Visual feedback for streaming state and user actions
+### Smart Scrolling
+- Auto-scroll disabled when user scrolls up
+- "Scroll to bottom" button appears when not at bottom
+
+### Message Input
+- Auto-resizing textarea (up to max height)
+- Shift+Enter for multi-line messages
+- Character limit (1,000 characters)
+- Automatic height reset after sending
+- Disabled state when no thread selected
 
 ### Third-party Packages
 - **react-markdown**: Industry-standard for markdown rendering
@@ -144,8 +128,10 @@ src/
 
 ## Notes
 
-- The application uses localStorage for persistence, so data is browser-specific
-- No backend is required - all state is managed client-side
+- No backend - all data stored locally
+- No message editing or deletion
+- No export/import functionality
+- Uses `window.confirm` for delete confirmation (could be improved with custom modal)
 - Error handling is basic to maintain proof-of-concept state
 - The model used is `openai/gpt-3.5-turbo` via OpenRouter
 

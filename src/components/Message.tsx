@@ -9,6 +9,10 @@ interface MessageProps {
 export const Message = ({ message }: MessageProps) => {
   const isUser = message.role === 'user';
 
+  if (!isUser && !message.content) {
+    return null;
+  }
+
   return (
     <div
       className={`flex gap-4 p-6 ${
