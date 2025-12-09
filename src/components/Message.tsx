@@ -15,7 +15,7 @@ export const Message = ({ message }: MessageProps) => {
 
   return (
     <div
-      className={`flex gap-4 p-6 ${
+      className={`flex gap-4 p-6 rounded-lg ${
         isUser ? 'bg-white' : 'bg-gray-50'
       }`}
     >

@@ -38,7 +38,6 @@ A standalone chat application to interface with LLM using OpenRouter API. Built 
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd testoneiq
 ```
 
 2. Install dependencies:
