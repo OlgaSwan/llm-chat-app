@@ -1,6 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import { Message as MessageType } from '../types';
-import { User, Bot } from 'lucide-react';
+import { User, Bot, Save } from 'lucide-react';
+import { useState } from 'react';
 
 interface MessageProps {
   message: MessageType;
@@ -8,14 +9,24 @@ interface MessageProps {
 
 export const Message = ({ message }: MessageProps) => {
   const isUser = message.role === 'user';
+  const [isSaved, setIsSaved] = useState(false);
 
   if (!isUser && !message.content) {
     return null;
   }
 
+  const handleSave = () => {
+    navigator.clipboard.writeText(message.content);
+    setIsSaved(true);
+
+    setTimeout(() => {
+      setIsSaved(false);
+    }, 2000);
+  };
+
   return (
     <div
-      className={`flex gap-4 p-6 rounded-lg ${
+      className={`group relative flex gap-4 p-6 ${
         isUser ? 'bg-white' : 'bg-gray-50'
       }`}
     >
@@ -45,6 +56,17 @@ export const Message = ({ message }: MessageProps) => {
           </div>
         )}
       </div>
+      <button
+        onClick={handleSave}
+        className={`absolute top-1 right-2 p-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity ${
+          isSaved
+            ? 'bg-green-500 text-white'
+            : 'text-gray-700'
+        }`}
+        title={isSaved ? 'Copied!' : 'Copy to clipboard'}
+      >
+        <Save size={14} />
+      </button>
     </div>
   );
 };
