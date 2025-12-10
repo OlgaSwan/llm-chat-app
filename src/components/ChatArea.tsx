@@ -108,7 +108,7 @@ export const ChatArea = () => {
             setAutoScroll(true);
             scrollToBottom();
           }}
-          className="absolute bottom-24 right-8 bg-white border border-gray-300 rounded-full p-3 shadow-lg hover:bg-gray-50 transition-colors"
+          className="absolute bottom-52 right-8 bg-white border border-gray-300 rounded-full p-3 shadow-lg hover:bg-gray-50 transition-colors"
           title="Scroll to bottom"
         >
           <ArrowDown size={20} />
