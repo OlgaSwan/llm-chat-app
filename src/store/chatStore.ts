@@ -14,7 +14,7 @@ interface ChatState {
   setActiveThread: (threadId: string) => void;
 
   // Message operations
-  addMessage: (threadId: string, message: Omit<Message, 'id' | 'timestamp'>) => void;
+  addMessage: (threadId: string, message: Omit<Message, 'id' | 'timestamp'>) => string;
   updateMessage: (threadId: string, messageId: string, updates: Partial<Message>) => void;
 
   // Streaming state
@@ -81,25 +81,23 @@ export const useChatStore = create<ChatState>()(
         set({ activeThreadId: threadId });
       },
 
-      addMessage: (threadId: string, message) => {
-        const fullMessage: Message = {
-          ...message,
-          id: generateId(),
-          timestamp: Date.now(),
-        };
+        addMessage: (threadId: string, message) => {
+            const fullMessage: Message = {
+                ...message,
+                id: generateId(),
+                timestamp: Date.now(),
+            };
 
-        set((state) => ({
-          threads: state.threads.map((t) =>
-            t.id === threadId
-              ? {
-                  ...t,
-                  messages: [...t.messages, fullMessage],
-                  updatedAt: Date.now(),
-                }
-              : t
-          ),
-        }));
-      },
+            set((state) => ({
+                threads: state.threads.map((thread) =>
+                    thread.id === threadId
+                        ? { ...thread, messages: [...thread.messages, fullMessage] }
+                        : thread
+                ),
+            }));
+
+            return fullMessage.id;
+        },
 
       updateMessage: (threadId: string, messageId: string, updates) => {
         set((state) => ({
